@@ -7,15 +7,8 @@ public class GameController : MonoBehaviour
 {
     public QuestionManager questionManager;
 
-    void Start()
-    {
-        // Inicializar el juego
-    }
-
-    void Update()
-    {
-        // Lógica del juego, por ejemplo, mover al jugador
-    }
+    //Vida del jugador
+    public PlayerHealth playerHealth;
 
     public void TriggerQuestion()
     {
@@ -90,13 +83,20 @@ public class GameController : MonoBehaviour
 
     public void CorrectAnswer()
     {
-        // Lógica para respuesta correcta, continuar el juego
+        Time.timeScale = 1;
+        FindObjectOfType<QuestionTrigger>().IniciarCorrutina();
         Debug.Log("Continuar el juego");
+
     }
 
     public void WrongAnswer()
     {
-        // Lógica para respuesta incorrecta, finalizar el juego o penalizar al jugador
-        Debug.Log("Penalizar al jugador");
+        
+        Time.timeScale = 1;
+        playerHealth.WrongAnswer();
+        FindObjectOfType<QuestionTrigger>().IniciarCorrutina();
+        Debug.Log("Pierdes una vida");
+
     }
+
 }

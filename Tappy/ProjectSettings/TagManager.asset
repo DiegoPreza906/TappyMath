@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Hero
+  - Destroy
+  - Active
+  - Trigger
   layers:
   - Default
   - TransparentFX
