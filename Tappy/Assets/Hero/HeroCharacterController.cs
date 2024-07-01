@@ -2,10 +2,14 @@ using UnityEngine;
 
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
+
 
 public class HeroCharacterController : MonoBehaviour
 {
+
+    //Animator
+    private Animator animator;
+
     [SerializeField] LayerMask groundLayer;
     private float gravity = -50f;
 
@@ -25,6 +29,7 @@ public class HeroCharacterController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        animator = GetComponent<Animator>();
         characterController = GetComponent<CharacterController>();
     }
 
@@ -59,6 +64,7 @@ public class HeroCharacterController : MonoBehaviour
         */
         characterController.Move(velocity * Time.deltaTime);
 
+        animator.SetFloat("Running",horizontalInput);
 
     }
 }
