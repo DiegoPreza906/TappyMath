@@ -6,6 +6,8 @@ public class PlayerHealth : MonoBehaviour
     public int vidas = 3;
 
     [SerializeField] private GameObject gameOverCanvas;
+    [SerializeField] private GameObject vidaNormalUI; // Referencia a la UI de vida normal
+    [SerializeField] private GameObject vidaMuriendoUI; // Referencia a la UI de vida muriendo
 
     // Método para llamar cuando el jugador se equivoque
     public void WrongAnswer()
@@ -14,6 +16,10 @@ public class PlayerHealth : MonoBehaviour
         vidas--;
 
         Debug.Log("Penalizar al jugador. Vidas restantes: " + vidas);
+
+        // Desactivar la UI de vida normal y activar la UI de vida muriendo
+        vidaNormalUI.SetActive(false);
+        vidaMuriendoUI.SetActive(true);
 
         // Verificar si las vidas se han agotado
         if (vidas <= 0)
