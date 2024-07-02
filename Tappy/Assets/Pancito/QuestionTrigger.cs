@@ -4,7 +4,7 @@ using System.Collections;
 public class QuestionTrigger : MonoBehaviour
 {
     [SerializeField] private GameController gameController;
-    [SerializeField] private float activationDelay = 10.0f; // Tiempo en segundos para volver a activar el trigger
+    [SerializeField] private float activationDelay = 20.0f; // Tiempo en segundos para volver a activar el trigger
 
     void Start()
     {
