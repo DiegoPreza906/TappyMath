@@ -4,14 +4,14 @@ using System.Collections;
 public class QuestionTrigger : MonoBehaviour
 {
     [SerializeField] private GameController gameController;
-    [SerializeField] private float activationDelay = 20.0f; // Tiempo en segundos para volver a activar el trigger
+    [SerializeField] private Animator triggerAnimator;
+    [SerializeField] private string animationTriggerName = "Run"; // Nombre del trigger de la animación
+    [SerializeField] private float activationDelay = 20.0f;
 
     void Start()
     {
         gameController = FindObjectOfType<GameController>(); // Buscar el GameController en la escena
-        //gameObject.SetActive(false); // Desactivar el objeto que tiene el trigger
     }
-
     void Update()
     {
         transform.position += new Vector3(-4, 0, 0) * Time.deltaTime;
@@ -22,9 +22,14 @@ public class QuestionTrigger : MonoBehaviour
         if (other.gameObject.CompareTag("Hero"))
         {
             Debug.Log("Player entered the trigger"); // Añadir mensaje de depuración
-            Time.timeScale = 0;
+            // Activar una nueva animación si se ha asignado un Animator
+            if (triggerAnimator != null)
+            {
+                triggerAnimator.SetTrigger(animationTriggerName);
+                Debug.Log("Triggered animation: " + animationTriggerName);
+            }
             gameController.TriggerQuestion(); // Mostrar la pregunta cuando el jugador entra en el trigger
-           
+
         }
     }
     public void IniciarCorrutina()

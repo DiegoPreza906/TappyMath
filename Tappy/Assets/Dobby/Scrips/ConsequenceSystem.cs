@@ -2,18 +2,54 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    // Variable para almacenar la cantidad de vidas del jugador
     public int vidas = 3;
 
     [SerializeField] private GameObject gameOverCanvas;
     [SerializeField] private GameObject vida3UI; // Referencia a la UI de 3 vidas
     [SerializeField] private GameObject vida2UI; // Referencia a la UI de 2 vidas
     [SerializeField] private GameObject vida1UI; // Referencia a la UI de 1 vida
-    [SerializeField] private Animator vidaMuriendo3Animator; // Animator de la UI de vida muriendo para 3 vidas
-    [SerializeField] private Animator vidaMuriendo2Animator; // Animator de la UI de vida muriendo para 2 vidas
-    [SerializeField] private Animator vidaMuriendo1Animator; // Animator de la UI de vida muriendo para 1 vida
 
-    // Método para llamar cuando el jugador se equivoque
+    [SerializeField] private GameObject animatorObject3; // Referencia al GameObject que tiene el Animator para 3 vidas
+    [SerializeField] private GameObject animatorObject2; // Referencia al GameObject que tiene el Animator para 2 vidas
+    [SerializeField] private GameObject animatorObject1; // Referencia al GameObject que tiene el Animator para 1 vida
+
+    private Animator animator3;
+    private Animator animator2;
+    private Animator animator1;
+
+    private void Start()
+    {
+        if (animatorObject3 != null)
+        {
+            animator3 = animatorObject3.GetComponent<Animator>();
+            animator3.SetInteger("Vidas", vidas); // Inicializar el parámetro de vidas
+        }
+        else
+        {
+            Debug.LogError("No se ha asignado el objeto con el Animator para 3 vidas.");
+        }
+
+        if (animatorObject2 != null)
+        {
+            animator2 = animatorObject2.GetComponent<Animator>();
+            animator2.SetInteger("Vidas", vidas); // Inicializar el parámetro de vidas
+        }
+        else
+        {
+            Debug.LogError("No se ha asignado el objeto con el Animator para 2 vidas.");
+        }
+
+        if (animatorObject1 != null)
+        {
+            animator1 = animatorObject1.GetComponent<Animator>();
+            animator1.SetInteger("Vidas", vidas); // Inicializar el parámetro de vidas
+        }
+        else
+        {
+            Debug.LogError("No se ha asignado el objeto con el Animator para 1 vida.");
+        }
+    }
+
     public void WrongAnswer()
     {
         // Reducir la cantidad de vidas
@@ -21,56 +57,36 @@ public class PlayerHealth : MonoBehaviour
 
         Debug.Log("Penalizar al jugador. Vidas restantes: " + vidas);
 
-        // Desactivar la UI de vida actual y activar la UI de vida muriendo correspondiente
+        // Actualizar los parámetros del Animator si se han asignado correctamente
         if (vidas == 2)
         {
-            vida3UI.SetActive(false);
-            PlayDeathAnimation(vidaMuriendo3Animator);
+            
+            if (animator3 != null)
+            {
+                animator3.SetTrigger("LoseLife3");
+                Debug.Log("Se pierdes la primera ___");
+            }
         }
         else if (vidas == 1)
         {
-            vida2UI.SetActive(false);
-            PlayDeathAnimation(vidaMuriendo2Animator);
+            
+            if (animator2 != null)
+            {
+                animator2.SetTrigger("LoseLife2");
+            }
         }
         else if (vidas <= 0)
         {
-            vida1UI.SetActive(false);
-            PlayDeathAnimation(vidaMuriendo1Animator);
 
+            if (animator1 != null)
+            {
+                animator1.SetTrigger("LoseLife1");
+            }
             // Detener el juego configurando la escala de tiempo a 0
             Time.timeScale = 0;
             gameOverCanvas.SetActive(true);
             Debug.Log("El jugador ha perdido todas sus vidas. El juego se detendrá.");
             return;
-        }
-    }
-
-    // Método para reproducir la animación de muerte y luego actualizar la UI de vida
-    private void PlayDeathAnimation(Animator animator)
-    {
-        // Activar el objeto y reproducir la animación
-        animator.gameObject.SetActive(true);
-        animator.SetTrigger("Muerte"); // "Muerte" es el nombre del trigger en el animator
-
-        // Después de un tiempo, actualizar la UI de vida
-        Invoke(nameof(UpdateLifeUI), 1.0f); // Ajusta el tiempo según la duración de la animación
-    }
-
-    private void UpdateLifeUI()
-    {
-        if (vidas == 2)
-        {
-            vidaMuriendo3Animator.gameObject.SetActive(false);
-            vida2UI.SetActive(true);
-        }
-        else if (vidas == 1)
-        {
-            vidaMuriendo2Animator.gameObject.SetActive(false);
-            vida1UI.SetActive(true);
-        }
-        else if (vidas <= 0)
-        {
-            vidaMuriendo1Animator.gameObject.SetActive(false);
         }
     }
 }
