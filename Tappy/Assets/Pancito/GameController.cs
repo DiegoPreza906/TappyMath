@@ -83,7 +83,6 @@ public class GameController : MonoBehaviour
 
     public void CorrectAnswer()
     {
-        Time.timeScale = 1;
         FindObjectOfType<QuestionTrigger>().IniciarCorrutina();
         Debug.Log("Continuar el juego");
 
@@ -92,7 +91,6 @@ public class GameController : MonoBehaviour
     public void WrongAnswer()
     {
         
-        Time.timeScale = 1;
         playerHealth.WrongAnswer();
         FindObjectOfType<QuestionTrigger>().IniciarCorrutina();
         Debug.Log("Pierdes una vida");

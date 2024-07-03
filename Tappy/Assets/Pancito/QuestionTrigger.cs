@@ -5,17 +5,14 @@ public class QuestionTrigger : MonoBehaviour
 {
     [SerializeField] private GameController gameController;
     [SerializeField] private Animator triggerAnimator;
-    [SerializeField] private string animationTriggerName = "Run"; // Nombre del trigger de la animación
+    [SerializeField] private string animationTriggerName = "Run";// Nombre del trigger de la animación
     [SerializeField] private float activationDelay = 20.0f;
 
     void Start()
     {
         gameController = FindObjectOfType<GameController>(); // Buscar el GameController en la escena
     }
-    void Update()
-    {
-        transform.position += new Vector3(-4, 0, 0) * Time.deltaTime;
-    }
+
 
     private void OnTriggerEnter(Collider other)
     {
