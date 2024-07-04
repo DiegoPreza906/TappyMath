@@ -2524,7 +2524,6 @@ GameObject:
   - component: {fileID: 722211416232168149}
   - component: {fileID: 722211416232168148}
   - component: {fileID: 722211416232168153}
-  - component: {fileID: 722211416232168154}
   m_Layer: 0
   m_Name: Tappy
   m_TagString: Hero
@@ -2762,19 +2761,6 @@ MonoBehaviour:
   animatorObject3: {fileID: 1930143043}
   animatorObject2: {fileID: 1921981338}
   animatorObject1: {fileID: 45576402}
---- !u!114 &722211416232168154
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 94047656941211752}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dda66e46164af0d45a920dea6abb3606, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  waitTime: 10
 --- !u!4 &761514198928528496
 Transform:
   m_ObjectHideFlags: 0
