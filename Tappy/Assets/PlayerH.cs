@@ -1,6 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerHealth : MonoBehaviour
+public class PlayerH : MonoBehaviour
 {
     public int vidas = 3;
 
@@ -60,7 +62,7 @@ public class PlayerHealth : MonoBehaviour
         // Actualizar los parámetros del Animator si se han asignado correctamente
         if (vidas == 2)
         {
-            
+
             if (animator3 != null)
             {
                 animator3.SetTrigger("LoseLife3");
@@ -68,7 +70,7 @@ public class PlayerHealth : MonoBehaviour
         }
         else if (vidas == 1)
         {
-            
+
             if (animator2 != null)
             {
                 animator2.SetTrigger("LoseLife2");

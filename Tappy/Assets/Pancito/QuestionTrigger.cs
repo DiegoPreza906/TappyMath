@@ -5,38 +5,44 @@ public class QuestionTrigger : MonoBehaviour
 {
     [SerializeField] private GameController gameController;
     [SerializeField] private Animator triggerAnimator;
-    [SerializeField] private string animationTriggerName = "Run";// Nombre del trigger de la animación
-    [SerializeField] private float activationDelay = 20.0f;
+    [SerializeField] private string animationTriggerName = "Run"; // Nombre del trigger de la animación
+    private float activationDelay = 10.0f;
+    public BoxCollider boxCollider;
+
 
     void Start()
     {
         gameController = FindObjectOfType<GameController>(); // Buscar el GameController en la escena
     }
 
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Hero"))
         {
-            Debug.Log("Player entered the trigger"); // Añadir mensaje de depuración
-            // Activar una nueva animación si se ha asignado un Animator
+            Debug.Log("Player entered the trigger"); 
+
             if (triggerAnimator != null)
             {
                 triggerAnimator.SetTrigger(animationTriggerName);
                 Debug.Log("Triggered animation: " + animationTriggerName);
             }
             gameController.TriggerQuestion(); // Mostrar la pregunta cuando el jugador entra en el trigger
-
         }
     }
+
     public void IniciarCorrutina()
     {
+        Debug.Log("Se activa trigger 1");
+        Debug.Log("Activation Delay: " + activationDelay);
         StartCoroutine(DeactivateAndReactivate());
     }
-    public IEnumerator DeactivateAndReactivate()
+
+    private IEnumerator DeactivateAndReactivate()
     {
-        gameObject.SetActive(false); // Desactivar el objeto que tiene el trigger
+        boxCollider.enabled = false; // Desactivar el objeto que tiene el trigger
+        Debug.Log("Se activa trigger 2");
         yield return new WaitForSecondsRealtime(activationDelay); // Esperar el tiempo determinado en segundos
-        gameObject.SetActive(true); // Volver a activar el objeto
+        Debug.Log("Se activa trigger 3");
+        boxCollider.enabled = true;
     }
 }

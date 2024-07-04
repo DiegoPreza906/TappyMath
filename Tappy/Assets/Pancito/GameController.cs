@@ -2,13 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class GameController : MonoBehaviour
 {
     public QuestionManager questionManager;
+    public PlayerH playerHealth;
 
-    //Vida del jugador
-    public PlayerHealth playerHealth;
+
+    void Start()
+    {
+        // Asegúrate de que QuestionTrigger se encuentra en la escena en el momento del inicio
+        QuestionTrigger questionTrigger = FindObjectOfType<QuestionTrigger>();
+        if (questionTrigger != null)
+        {
+            Debug.Log("QuestionTrigger encontrado al iniciar.");
+        }
+        else
+        {
+            Debug.LogError("No se encontró QuestionTrigger al iniciar.");
+        }
+    }
 
     public void TriggerQuestion()
     {
@@ -83,18 +95,39 @@ public class GameController : MonoBehaviour
 
     public void CorrectAnswer()
     {
-        FindObjectOfType<QuestionTrigger>().IniciarCorrutina();
-        Debug.Log("Continuar el juego");
-
+        QuestionTrigger questionTrigger = FindObjectOfType<QuestionTrigger>();
+        if (questionTrigger != null)
+        {
+            questionTrigger.IniciarCorrutina();
+            Debug.Log("Continuar el juego");
+        }
+        else
+        {
+            Debug.LogError("No se encontró QuestionTrigger en CorrectAnswer.");
+        }
     }
 
     public void WrongAnswer()
     {
-        
-        playerHealth.WrongAnswer();
-        FindObjectOfType<QuestionTrigger>().IniciarCorrutina();
-        Debug.Log("Pierdes una vida");
+        // Verificar que playerHealth no es nulo
+        if (playerHealth != null)
+        {
+            playerHealth.WrongAnswer();
+            Debug.Log("Pierdes una vida");
+        }
+        else
+        {
+            Debug.LogError("playerHealth es nulo.");
+        }
+        QuestionTrigger questionTrigger = FindObjectOfType<QuestionTrigger>();
 
+        if (questionTrigger != null)
+        {
+            questionTrigger.IniciarCorrutina();
+        }
+        else
+        {
+            Debug.LogError("No se encontró QuestionTrigger en WrongAnswer.");
+        }
     }
-
 }
