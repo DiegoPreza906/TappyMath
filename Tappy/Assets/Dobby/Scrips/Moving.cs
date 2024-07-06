@@ -15,7 +15,7 @@ public class Moving : MonoBehaviour
 
     void Update()
     {
-        if (isMoving==true)
+        if (isMoving)
         {
             transform.position += new Vector3(0, 0, 0) * Time.deltaTime;
         }
@@ -27,26 +27,25 @@ public class Moving : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("Destroy"))
-        {
-            Destroy(gameObject);
-        }
         if (other.gameObject.CompareTag("Active"))
         {
-            rb.isKinematic = false;
+            transform.position = new Vector3(18, transform.position.y, transform.position.z);
+            //rb.isKinematic = false;
+            isMoving = false;
+            Debug.Log("Object moved to new position and resumed movement.");
         }
+
     }
 
     public void StopMovement()
     {
-        Debug.Log("Si llegas");
+        Debug.Log("Stopping movement.");
         isMoving = true;
-        transform.position += new Vector3(0, 0, 0) * Time.deltaTime;
-    }
-    public void ActiveMovement()
-    {
-        isMoving = false;
-        transform.position += new Vector3(-4, 0, 0) * Time.deltaTime;
     }
 
+    public void ActiveMovement()
+    {
+        Debug.Log("Resuming movement.");
+        isMoving = false;
+    }
 }

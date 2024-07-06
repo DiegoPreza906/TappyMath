@@ -13,13 +13,13 @@ public class QuestionManager : MonoBehaviour
     private string correctAnswer;
     private GameController gameController;
     private Coroutine timerCoroutine;
-    private Moving movingObject; // Referencia al objeto en movimiento
+    private Moving[] movingObjects; // Array de referencias a los objetos en movimiento
 
     void Start()
     {
         questionCanvas.SetActive(false);
         gameController = FindObjectOfType<GameController>();
-        movingObject = FindObjectOfType<Moving>(); // Buscar el objeto en movimiento en la escena
+        movingObjects = FindObjectsOfType<Moving>(); // Buscar todos los objetos en movimiento en la escena
     }
 
     public void ShowQuestion(string question, string[] answers, string correctAnswer)
@@ -43,7 +43,13 @@ public class QuestionManager : MonoBehaviour
                 answerButtons[i].gameObject.SetActive(false);
             }
         }
-        movingObject.StopMovement();
+
+        // Detener todos los objetos en movimiento
+        foreach (Moving movingObject in movingObjects)
+        {
+            movingObject.StopMovement();
+        }
+
         // Iniciar el temporizador
         timerCoroutine = StartCoroutine(TimerCoroutine(10f));
     }
@@ -53,14 +59,21 @@ public class QuestionManager : MonoBehaviour
         if (answer == correctAnswer)
         {
             Debug.Log("Correct Answer");
-            movingObject.ActiveMovement();
+            // Reanudar el movimiento de todos los objetos
+            foreach (Moving movingObject in movingObjects)
+            {
+                movingObject.ActiveMovement();
+            }
             gameController.CorrectAnswer();
         }
         else
         {
             Debug.Log("Wrong Answer");
-            movingObject.ActiveMovement();
-
+            // Reanudar el movimiento de todos los objetos
+            foreach (Moving movingObject in movingObjects)
+            {
+                movingObject.ActiveMovement();
+            }
             gameController.WrongAnswer();
         }
         questionCanvas.SetActive(false);
