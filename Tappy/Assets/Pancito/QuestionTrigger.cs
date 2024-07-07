@@ -32,17 +32,20 @@ public class QuestionTrigger : MonoBehaviour
 
     public void IniciarCorrutina()
     {
-        Debug.Log("Se activa trigger 1");
-        Debug.Log("Activation Delay: " + activationDelay);
         StartCoroutine(DeactivateAndReactivate());
     }
 
     private IEnumerator DeactivateAndReactivate()
     {
         boxCollider.enabled = false; // Desactivar el objeto que tiene el trigger
-        Debug.Log("Se activa trigger 2");
+        activationDelay = RandomNumbre();
+        Debug.Log("Soy Random" + activationDelay);
         yield return new WaitForSecondsRealtime(activationDelay); // Esperar el tiempo determinado en segundos
-        Debug.Log("Se activa trigger 3");
         boxCollider.enabled = true;
+    }
+
+    private float RandomNumbre()
+    {
+        return Random.Range(10.0f, 15.0f);
     }
 }

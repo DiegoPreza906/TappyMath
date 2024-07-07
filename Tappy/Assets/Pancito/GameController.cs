@@ -6,6 +6,8 @@ public class GameController : MonoBehaviour
 {
     public QuestionManager questionManager;
     public PlayerH playerHealth;
+    [SerializeField] private Animator triggerAnimator;
+    [SerializeField] private string animationTriggerName = "Correr"; // Nombre del trigger de la animación
 
 
     void Start()
@@ -98,6 +100,7 @@ public class GameController : MonoBehaviour
         QuestionTrigger questionTrigger = FindObjectOfType<QuestionTrigger>();
         if (questionTrigger != null)
         {
+            triggerAnimator.SetTrigger(animationTriggerName);
             questionTrigger.IniciarCorrutina();
             Debug.Log("Continuar el juego");
         }
@@ -123,6 +126,7 @@ public class GameController : MonoBehaviour
 
         if (questionTrigger != null)
         {
+            triggerAnimator.SetTrigger(animationTriggerName);
             questionTrigger.IniciarCorrutina();
         }
         else
