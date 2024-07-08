@@ -4,23 +4,28 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-
 public class SceneMan : MonoBehaviour
 {
     public TextMeshProUGUI textProgress;
     public Slider sliderProgress;
     public string sceneLoadName;
-    public float currentPorcent;
-    [SerializeField] private GameObject Load; // Referencia a la UI de 3 vidas
+    [SerializeField] private GameObject Load; // Referencia a la UI de carga
+    private float currentPorcent;
 
     private void Start()
     {
         Load.SetActive(false);
+        sliderProgress.value = 0;
     }
+
     private void Update()
     {
-        sliderProgress.value = Mathf.MoveTowards(sliderProgress.value, currentPorcent, 10 * Time.deltaTime);
+        if (Load.activeSelf)
+        {
+            sliderProgress.value = Mathf.MoveTowards(sliderProgress.value, currentPorcent, 10 * Time.deltaTime);
+        }
     }
+
     public void LoadSceneButton()
     {
         Load.SetActive(true);
@@ -31,16 +36,23 @@ public class SceneMan : MonoBehaviour
     {
         textProgress.text = "Loading.. 00%";
         AsyncOperation loadAsync = SceneManager.LoadSceneAsync(sceneLoadName);
+        loadAsync.allowSceneActivation = false;
+
         while (!loadAsync.isDone)
         {
-            currentPorcent = (loadAsync.progress * 100) / 0.9f;
-            textProgress.text = "Loading.."+currentPorcent.ToString("00") + "%";
+            currentPorcent = (loadAsync.progress / 0.9f) * 100;
+            textProgress.text = "Loading.. " + currentPorcent.ToString("00") + "%";
+
+            if (loadAsync.progress >= 0.9f)
+            {
+                textProgress.text = "Loading.. 100%";
+                sliderProgress.value = 1f;
+                loadAsync.allowSceneActivation = true;
+            }
+
             yield return null;
         }
-
-        
     }
-
 
     public void QuitGame()
     {

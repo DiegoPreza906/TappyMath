@@ -48,6 +48,6 @@ public class QuestionTrigger : MonoBehaviour
 
     private float RandomNumbre()
     {
-        return Random.Range(10.0f, 15.0f);
+        return Random.Range(7.0f, 10.0f);
     }
 }
