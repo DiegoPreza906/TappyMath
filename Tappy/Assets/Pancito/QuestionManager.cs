@@ -14,7 +14,7 @@ public class QuestionManager : MonoBehaviour
     private GameController gameController;
     private Coroutine timerCoroutine;
     private Moving[] movingObjects; // Array de referencias a los objetos en movimiento
-
+    public MoveTappy moveTappy;
     void Start()
     {
         questionCanvas.SetActive(false);
@@ -49,7 +49,7 @@ public class QuestionManager : MonoBehaviour
         {
             movingObject.StopMovement();
         }
-
+        moveTappy.StopMovement();
         // Iniciar el temporizador
         timerCoroutine = StartCoroutine(TimerCoroutine(10f));
     }
@@ -63,7 +63,9 @@ public class QuestionManager : MonoBehaviour
             foreach (Moving movingObject in movingObjects)
             {
                 movingObject.ActiveMovement();
+                
             }
+            moveTappy.ActiveMovement();
             gameController.CorrectAnswer();
         }
         else
@@ -74,6 +76,7 @@ public class QuestionManager : MonoBehaviour
             {
                 movingObject.ActiveMovement();
             }
+            moveTappy.ActiveMovement();
             gameController.WrongAnswer();
         }
         questionCanvas.SetActive(false);
