@@ -13,6 +13,8 @@ public class QuestionTrigger : MonoBehaviour
     void Start()
     {
         gameController = FindObjectOfType<GameController>(); // Buscar el GameController en la escena
+        boxCollider.enabled = false; // Desactivar el objeto que tiene el trigger
+        IniciarCorrutina();
     }
 
     private void OnTriggerEnter(Collider other)
