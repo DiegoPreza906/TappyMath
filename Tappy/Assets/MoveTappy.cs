@@ -22,7 +22,7 @@ public class MoveTappy : MonoBehaviour
         if (canMove)
         {
             // Comprobar si se presiona la tecla de flecha derecha
-            if (Input.GetKeyDown(KeyCode.RightArrow))
+             if (Input.GetKeyDown(KeyCode.RightArrow))
             {
                 previousPosition = targetPosition; // Guardar la posición actual como anterior
                 targetPosition -= new Vector3(0, 0, moveDistance);

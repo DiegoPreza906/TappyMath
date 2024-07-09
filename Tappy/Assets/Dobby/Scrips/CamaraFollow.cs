@@ -11,19 +11,37 @@ public class CamaraFollow : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Inicializa la posición de la cámara pegada al objetivo
         offset = transform.position - target.position;
     }
 
     // Update is called once per frame
-    void LateUpdate()
+    void Update()
     {
         if (playOn)
         {
-            // Sigue al objetivo desde atrás
-            Vector3 targetPosition = target.position + new Vector3(0, 1, -1); // Ajusta estos valores según lo necesites
-            transform.position = Vector3.Lerp(transform.position, targetPosition + offset, Time.deltaTime * 4);
-            transform.position = Vector3.Lerp(transform.position, new Vector3(target.position.x, 1, target.position.z) + offset, Time.deltaTime * 4);
+            Debug.Log("Hola ya cambie");
+            // Cambiar la posición y rotación de la cámara a valores específicos
+            Vector3 targetPosition = new Vector3(-3.9f, 2.9f, -0.043f);
+            Quaternion targetRotation = Quaternion.Euler(0, 90, 0);
+
+            // Interpolación suave hacia la nueva posición y rotación
+            transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 4);
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 4);
+
+            // Verificar si la cámara está cerca de la posición y rotación objetivo
+            if (Vector3.Distance(transform.position, targetPosition) < 0.01f &&
+                Quaternion.Angle(transform.rotation, targetRotation) < 0.1f)
+            {
+                transform.position = targetPosition;
+                transform.rotation = targetRotation;
+                playOn = false;
+            }
         }
+    }
+
+    // Método para activar el seguimiento de la cámara
+    public void SetPlayOn(bool play)
+    {
+        playOn = play;
     }
 }

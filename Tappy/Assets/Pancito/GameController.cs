@@ -20,7 +20,7 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            Debug.LogError("No se encontró QuestionTrigger al iniciar.");
+            Debug.Log("No se encontró QuestionTrigger al iniciar.");
         }
     }
 
