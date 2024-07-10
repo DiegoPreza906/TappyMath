@@ -6,6 +6,7 @@ public class CamaraFollow : MonoBehaviour
 {
     [SerializeField] private Transform target = null;
     private bool playOn = false;
+    private bool followPlayer = false;
     private Vector3 offset;
 
     // Start is called before the first frame update
@@ -19,7 +20,6 @@ public class CamaraFollow : MonoBehaviour
     {
         if (playOn)
         {
-            Debug.Log("Hola ya cambie");
             // Cambiar la posición y rotación de la cámara a valores específicos
             Vector3 targetPosition = new Vector3(-3.9f, 2.9f, -0.043f);
             Quaternion targetRotation = Quaternion.Euler(0, 90, 0);
@@ -32,10 +32,23 @@ public class CamaraFollow : MonoBehaviour
             if (Vector3.Distance(transform.position, targetPosition) < 0.01f &&
                 Quaternion.Angle(transform.rotation, targetRotation) < 0.1f)
             {
+                transform.position = new Vector3(transform.position.x, transform.position.y, target.position.z);
                 transform.position = targetPosition;
                 transform.rotation = targetRotation;
                 playOn = false;
+                followPlayer = true; // Activar seguimiento del jugador
+                
             }
+        }
+    }
+
+    private void LateUpdate()
+    {
+        if (followPlayer)
+        {
+            // Solo seguir al jugador en el eje Z suavemente
+            Vector3 targetPosition = new Vector3(transform.position.x, transform.position.y, target.position.z);
+            transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 4);
         }
     }
 
@@ -43,5 +56,6 @@ public class CamaraFollow : MonoBehaviour
     public void SetPlayOn(bool play)
     {
         playOn = play;
+        followPlayer = false; // Reiniciar seguimiento del jugador
     }
 }

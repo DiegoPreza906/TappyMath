@@ -19,7 +19,7 @@ public class MenuPrincipalTappy : MonoBehaviour
     [SerializeField] private GameObject menu;
     [SerializeField] private GameObject triggerQuestion;
 
-    void Start()
+    void Awake()
     {
         movingObjects = FindObjectsOfType<Moving>();
         foreach (Moving movingObject in movingObjects)

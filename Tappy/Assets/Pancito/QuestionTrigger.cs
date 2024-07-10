@@ -12,6 +12,7 @@ public class QuestionTrigger : MonoBehaviour
 
     void Start()
     {
+        Debug.Log("Gola como estas");
         gameController = FindObjectOfType<GameController>(); // Buscar el GameController en la escena
         boxCollider.enabled = false; // Desactivar el objeto que tiene el trigger
         IniciarCorrutina();
@@ -43,6 +44,7 @@ public class QuestionTrigger : MonoBehaviour
         activationDelay = RandomNumbre();
         Debug.Log("Soy Random" + activationDelay);
         yield return new WaitForSecondsRealtime(activationDelay); // Esperar el tiempo determinado en segundos
+        Debug.Log("Hola aqui estot");
         boxCollider.enabled = true;
     }
 
