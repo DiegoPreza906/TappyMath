@@ -20,6 +20,7 @@ public class MenuPrincipalTappy : MonoBehaviour
     [SerializeField] private GameObject menu;
     [SerializeField] private GameObject triggerQuestion;
     [SerializeField] private GameObject SpawnBananas;
+    [SerializeField] private GameObject score;
 
     void Awake()
     {
@@ -34,6 +35,7 @@ public class MenuPrincipalTappy : MonoBehaviour
         lifes.SetActive(false);
         contador.SetActive(false);
         triggerQuestion.SetActive(false);
+        score.SetActive(false);
         SpawnBananas.SetActive(false);
         pantallaPrincipal = true;
 
@@ -67,6 +69,7 @@ public class MenuPrincipalTappy : MonoBehaviour
         triggerQuestion.SetActive(true);
         contador.SetActive(true);
         SpawnBananas.SetActive(true);
+        score.SetActive(true);
         camara.SetPlayOn(true);
  
     }

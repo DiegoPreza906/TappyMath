@@ -15,11 +15,13 @@ public class QuestionManager : MonoBehaviour
     private Coroutine timerCoroutine;
     private Moving[] movingObjects; // Array de referencias a los objetos en movimiento
     public MoveTappy moveTappy;
+    public Score doScore;
     void Start()
     {
         questionCanvas.SetActive(false);
         gameController = FindObjectOfType<GameController>();
         movingObjects = FindObjectsOfType<Moving>(); // Buscar todos los objetos en movimiento en la escena
+        doScore = FindObjectOfType<Score>();
     }
 
     public void ShowQuestion(string question, string[] answers, string correctAnswer)
@@ -50,6 +52,7 @@ public class QuestionManager : MonoBehaviour
             movingObject.StopMovement();
         }
         moveTappy.StopMovement();
+        doScore.NoseMueve();
         // Iniciar el temporizador
         timerCoroutine = StartCoroutine(TimerCoroutine(10f));
     }
@@ -62,10 +65,12 @@ public class QuestionManager : MonoBehaviour
             // Reanudar el movimiento de todos los objetos
             foreach (Moving movingObject in movingObjects)
             {
-                movingObject.ActiveMovement();
                 
+                movingObject.ActiveMovement();
+
             }
             moveTappy.ActiveMovement();
+            doScore.SiseMueve();
             gameController.CorrectAnswer();
         }
         else
@@ -74,9 +79,14 @@ public class QuestionManager : MonoBehaviour
             // Reanudar el movimiento de todos los objetos
             foreach (Moving movingObject in movingObjects)
             {
+
                 movingObject.ActiveMovement();
+                
+
             }
+         
             moveTappy.ActiveMovement();
+            doScore.SiseMueve();
             gameController.WrongAnswer();
         }
         questionCanvas.SetActive(false);
