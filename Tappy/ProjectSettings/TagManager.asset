@@ -9,6 +9,7 @@ TagManager:
   - Active
   - Trigger
   - Wall
+  - DestroyB
   layers:
   - Default
   - TransparentFX
