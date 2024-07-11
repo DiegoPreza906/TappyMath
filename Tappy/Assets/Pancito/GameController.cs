@@ -8,9 +8,8 @@ public class GameController : MonoBehaviour
     public PlayerH playerHealth;
     [SerializeField] private Animator triggerAnimator;
     [SerializeField] private string animationTriggerName = "Correr"; // Nombre del trigger de la animación
-
-    private int correctAnswersCount = 0;
     private int currentLevel = 1;
+    private int correctAnswers = 0;
 
     void Start()
     {
@@ -22,10 +21,8 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            Debug.Log("No se encontró QuestionTrigger al iniciar.");
+            Debug.LogError("No se encontró QuestionTrigger al iniciar.");
         }
-
-        StartNewLevel(); // Comenzar el primer nivel al iniciar el juego
     }
 
     public void TriggerQuestion()
@@ -34,189 +31,155 @@ public class GameController : MonoBehaviour
         questionManager.ShowQuestion(randomQuestion.questionText, randomQuestion.answers, randomQuestion.correctAnswer);
     }
 
-private Question GenerateRandomQuestion()
-{
-    int num1 = GetRandomNumberForLevel(currentLevel);
-    int num2 = GetRandomNumberForLevel(currentLevel);
-
-    string questionText = "";
-    string correctAnswer = "";
-    string[] answers = new string[4];
-
-    switch (currentLevel)
+    private Question GenerateRandomQuestion()
     {
-        case 1: // Nivel Primaria (Suma y Resta)
-            int operationType1 = UnityEngine.Random.Range(1, 3); // 1: Suma, 2: Resta
-            if (operationType1 == 1)
-            {
-                questionText = $"¿Cuánto es {num1} + {num2}?";
-                correctAnswer = (num1 + num2).ToString();
-            }
-            else
-            {
-                questionText = $"¿Cuánto es {num1} - {num2}?";
-                correctAnswer = (num1 - num2).ToString();
-            }
-            break;
-        case 2: // Nivel Secundaria (Suma, Resta, Multiplicación)
-            int operationType2 = UnityEngine.Random.Range(1, 4); // 1: Suma, 2: Resta, 3: Multiplicación
-            if (operationType2 == 1)
-            {
-                questionText = $"¿Cuánto es {num1} + {num2}?";
-                correctAnswer = (num1 + num2).ToString();
-            }
-            else if (operationType2 == 2)
-            {
-                questionText = $"¿Cuánto es {num1} - {num2}?";
-                correctAnswer = (num1 - num2).ToString();
-            }
-            else
-            {
-                questionText = $"¿Cuánto es {num1} x {num2}?";
-                correctAnswer = (num1 * num2).ToString();
-            }
-            break;
-        case 3: // Nivel Secundaria con Multiplicaciones
-            num1 = UnityEngine.Random.Range(10, 100); // Limitar num1 para multiplicaciones (2 dígitos)
-            num2 = 1; // Segundo número siempre será 1 para facilitar la operación
-            questionText = $"¿Cuánto es {num1} x {num2}?";
-            correctAnswer = (num1 * num2).ToString();
-            break;
-        case 4: // Nivel Preparatoria con Divisiones
-            num1 = UnityEngine.Random.Range(10, 100); // Limitar num1 para divisiones (2 dígitos)
-            int divisor = 1; // Divisor siempre será 1 para facilitar la operación
-            while (num1 % divisor != 0) // Asegurar división entera
-            {
-                num1 = UnityEngine.Random.Range(10, 100); // Limitar num1 para divisiones (2 dígitos)
-            }
-            questionText = $"¿Cuánto es {num1} / {divisor}?";
-            correctAnswer = (num1 / divisor).ToString();
-            break;
-        case 5: // Nivel Secundaria Avanzada
-            int operationType5 = UnityEngine.Random.Range(1, 5); // 1: Suma, 2: Resta, 3: Multiplicación, 4: División
-            num1 = UnityEngine.Random.Range(10, 100); // Limitar num1 para todas las operaciones avanzadas (2 dígitos)
-            num2 = UnityEngine.Random.Range(1, 100); // Limitar num2 para todas las operaciones avanzadas
-            if (operationType5 == 1)
-            {
-                questionText = $"¿Cuánto es {num1} + {num2}?";
-                correctAnswer = (num1 + num2).ToString();
-            }
-            else if (operationType5 == 2)
-            {
-                questionText = $"¿Cuánto es {num1} - {num2}?";
-                correctAnswer = (num1 - num2).ToString();
-            }
-            else if (operationType5 == 3)
-            {
-                questionText = $"¿Cuánto es {num1} x {num2}?";
-                correctAnswer = (num1 * num2).ToString();
-            }
-            else
-            {
-                int divisor5 = 1; // Divisor siempre será 1 para facilitar la operación
-                while (num1 % divisor5 != 0) // Asegurar división entera
+        int num1 = GetRandomNumberForLevel(currentLevel);
+        int num2 = GetRandomNumberForLevel(currentLevel);
+
+        string questionText = "";
+        string correctAnswer = "";
+        string[] answers = new string[4];
+
+        switch (currentLevel)
+        {
+            case 1: // Nivel Primaria (Suma y Resta)
+                int operationType1 = UnityEngine.Random.Range(1, 3); // 1: Suma, 2: Resta
+                if (operationType1 == 1)
                 {
-                    num1 = UnityEngine.Random.Range(10, 100); // Limitar num1 para divisiones (2 dígitos)
+                    questionText = $"¿Cuánto es {num1} + {num2}?";
+                    correctAnswer = (num1 + num2).ToString();
                 }
-                questionText = $"¿Cuánto es {num1} / {divisor5}?";
-                correctAnswer = (num1 / divisor5).ToString();
-            }
-            break;
-    }
-
-    // Generar respuestas aleatorias
-    HashSet<string> answerSet = new HashSet<string> { correctAnswer };
-    for (int i = 0; i < answers.Length; i++)
-    {
-        if (i == 0)
-        {
-            answers[i] = correctAnswer;
+                else
+                {
+                    questionText = $"¿Cuánto es {num1} - {num2}?";
+                    correctAnswer = (num1 - num2).ToString();
+                }
+                break;
+            case 2: // Nivel Secundaria (Suma, Resta)
+                int operationType2 = UnityEngine.Random.Range(1, 3); // 1: Suma, 2: Resta
+                if (operationType2 == 1)
+                {
+                    questionText = $"¿Cuánto es {num1} + {num2}?";
+                    correctAnswer = (num1 + num2).ToString();
+                }
+                else
+                {
+                    questionText = $"¿Cuánto es {num1} - {num2}?";
+                    correctAnswer = (num1 - num2).ToString();
+                }
+                break;
+            case 3: // Nivel Secundaria con Multiplicaciones
+                num1 = UnityEngine.Random.Range(10, 100); // Limitar num1 para multiplicaciones (2 dígitos)
+                num2 = UnityEngine.Random.Range(1, 10); // Limitar num2 para multiplicaciones (1 dígito)
+                questionText = $"¿Cuánto es {num1} x {num2}?";
+                correctAnswer = (num1 * num2).ToString();
+                break;
+            case 4: // Nivel Preparatoria con Divisiones
+                num1 = UnityEngine.Random.Range(10, 100); // Limitar num1 para divisiones (2 dígitos)
+                num2 = UnityEngine.Random.Range(1, 10); // Limitar num2 para divisiones (1 dígito)
+                while (num1 % num2 != 0) // Asegurar división entera
+                {
+                    num1 = UnityEngine.Random.Range(10, 100);
+                }
+                questionText = $"¿Cuánto es {num1} / {num2}?";
+                correctAnswer = (num1 / num2).ToString();
+                break;
+            case 5: // Nivel Secundaria Avanzada
+                int operationType5 = UnityEngine.Random.Range(1, 5); // 1: Suma, 2: Resta, 3: Multiplicación, 4: División
+                num1 = UnityEngine.Random.Range(10, 100); // Limitar num1 para todas las operaciones avanzadas (2 dígitos)
+                num2 = UnityEngine.Random.Range(1, 10); // Limitar num2 para todas las operaciones avanzadas (1 dígito para multiplicación y división)
+                if (operationType5 == 1)
+                {
+                    questionText = $"¿Cuánto es {num1} + {num2}?";
+                    correctAnswer = (num1 + num2).ToString();
+                }
+                else if (operationType5 == 2)
+                {
+                    questionText = $"¿Cuánto es {num1} - {num2}?";
+                    correctAnswer = (num1 - num2).ToString();
+                }
+                else if (operationType5 == 3)
+                {
+                    questionText = $"¿Cuánto es {num1} x {num2}?";
+                    correctAnswer = (num1 * num2).ToString();
+                }
+                else
+                {
+                    while (num1 % num2 != 0) // Asegurar división entera
+                    {
+                        num1 = UnityEngine.Random.Range(10, 100);
+                    }
+                    questionText = $"¿Cuánto es {num1} / {num2}?";
+                    correctAnswer = (num1 / num2).ToString();
+                }
+                break;
         }
-        else
+
+        // Generar respuestas similares
+        HashSet<string> answerSet = new HashSet<string> { correctAnswer };
+        for (int i = 0; i < answers.Length; i++)
         {
-            int incorrectAnswer;
-            do
+            if (i == 0)
             {
-                incorrectAnswer = GetIncorrectAnswerForLevel(currentLevel); // Generar respuestas incorrectas
-            } while (!answerSet.Add(incorrectAnswer.ToString()));
-            answers[i] = incorrectAnswer.ToString();
+                answers[i] = correctAnswer;
+            }
+            else
+            {
+                int incorrectAnswer;
+                do
+                {
+                    incorrectAnswer = GenerateSimilarAnswer(int.Parse(correctAnswer)); // Generar respuestas similares
+                } while (!answerSet.Add(incorrectAnswer.ToString()));
+                answers[i] = incorrectAnswer.ToString();
+            }
         }
-    }
 
-    // Mezclar las respuestas
-    for (int i = 0; i < answers.Length; i++)
-    {
-        int randomIndex = UnityEngine.Random.Range(0, answers.Length);
-        string temp = answers[i];
-        answers[i] = answers[randomIndex];
-        answers[randomIndex] = temp;
-    }
+        // Mezclar las respuestas
+        for (int i = 0; i < answers.Length; i++)
+        {
+            int randomIndex = UnityEngine.Random.Range(0, answers.Length);
+            string temp = answers[i];
+            answers[i] = answers[randomIndex];
+            answers[randomIndex] = temp;
+        }
 
-    return new Question { questionText = questionText, answers = answers, correctAnswer = correctAnswer };
-}
+        return new Question { questionText = questionText, answers = answers, correctAnswer = correctAnswer };
+    }
 
     private int GetRandomNumberForLevel(int level)
     {
-        int maxNumber = 20; // Por defecto para niveles iniciales
         switch (level)
         {
-            case 2:
-                maxNumber = 50; // Números más grandes para nivel secundaria
-                break;
-            case 5:
-                maxNumber = 100; // Números más grandes para nivel secundaria avanzada
-                break;
+            case 1: // Nivel Primaria
+                return UnityEngine.Random.Range(1, 21);
+            case 2: // Nivel Secundaria
+                return UnityEngine.Random.Range(10, 51);
+            case 3: // Nivel Secundaria con Multiplicaciones
+                return UnityEngine.Random.Range(10, 100);
+            case 4: // Nivel Preparatoria con Divisiones
+                return UnityEngine.Random.Range(10, 100);
+            case 5: // Nivel Secundaria Avanzada
+                return UnityEngine.Random.Range(10, 100);
+            default:
+                return 0;
         }
-        return UnityEngine.Random.Range(1, maxNumber + 1);
     }
 
-    private int GetDivisorForLevel(int level)
+    private int GenerateSimilarAnswer(int correctAnswer)
     {
-        int maxDivisor = 10; // Divisores más pequeños para niveles iniciales
-        switch (level)
-        {
-            case 4:
-                maxDivisor = 20; // Divisores más grandes para nivel preparatoria
-                break;
-            case 5:
-                maxDivisor = 50; // Divisores más grandes para nivel secundaria avanzada
-                break;
-        }
-        return UnityEngine.Random.Range(1, maxDivisor + 1);
-    }
-
-    private int GetIncorrectAnswerForLevel(int level)
-    {
-        int maxIncorrectAnswer = 40; // Respuestas incorrectas más grandes para niveles superiores
-        switch (level)
-        {
-            case 1:
-                maxIncorrectAnswer = 20; // Respuestas incorrectas hasta 20 para niveles iniciales
-                break;
-            case 2:
-                maxIncorrectAnswer = 50; // Respuestas incorrectas hasta 50 para nivel secundaria
-                break;
-            case 3:
-                maxIncorrectAnswer = 100; // Respuestas incorrectas hasta 100 para nivel secundaria con multiplicaciones
-                break;
-        }
-        return UnityEngine.Random.Range(1, maxIncorrectAnswer + 1);
-    }
-
-    private void StartNewLevel()
-    {
-        if (correctAnswersCount >= 5)
-        {
-            currentLevel++;
-            correctAnswersCount = 0;
-            Debug.Log($"Comenzando nivel {currentLevel}");
-        }
+        int offset = UnityEngine.Random.Range(-5, 6); // Generar un offset pequeño para respuestas similares
+        return correctAnswer + offset;
     }
 
     public void CorrectAnswer()
     {
-        correctAnswersCount++;
-        StartNewLevel();
+        correctAnswers++;
+        if (correctAnswers >= 5)
+        {
+            currentLevel++;
+            correctAnswers = 0;
+            if (currentLevel > 5) currentLevel = 5;
+        }
 
         QuestionTrigger questionTrigger = FindObjectOfType<QuestionTrigger>();
         if (questionTrigger != null)
@@ -233,6 +196,9 @@ private Question GenerateRandomQuestion()
 
     public void WrongAnswer()
     {
+        currentLevel = 1;
+        correctAnswers = 0;
+
         // Verificar que playerHealth no es nulo
         if (playerHealth != null)
         {
