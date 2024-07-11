@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-public class BananSpawner : MonoBehaviour
+public class BananaSpawner : MonoBehaviour
 {
     public GameObject[] prefabs;
 
@@ -22,21 +23,22 @@ public class BananSpawner : MonoBehaviour
     {
         while (true)
         {
-            foreach (Transform position in spawnPositions)
-            {
-                // Randomly decide how many prefabs to spawn at this position (0 to 3)
-                int numberOfPrefabsToSpawn = Random.Range(1, 4); // 1 to 3
+            // Randomly decide how many positions to spawn at (1 to 3)
+            int numberOfPositionsToSpawn = Random.Range(1, spawnPositions.Length + 1);
 
-                for (int i = 0; i < numberOfPrefabsToSpawn; i++)
-                {
-                    // Randomly select a prefab to spawn
-                    int prefabIndex = Random.Range(0, prefabs.Length);
-                    Instantiate(prefabs[prefabIndex], position.position, Quaternion.identity);
-                }
+            // Shuffle the spawn positions array
+            Transform[] shuffledPositions = spawnPositions.OrderBy(x => Random.value).ToArray();
+
+            for (int i = 0; i < numberOfPositionsToSpawn; i++)
+            {
+                // Randomly select a prefab to spawn
+                int prefabIndex = Random.Range(0, prefabs.Length);
+                Instantiate(prefabs[prefabIndex], shuffledPositions[i].position, Quaternion.identity);
             }
+
             // Wait for the next spawn
+            spawnInterval = Random.Range(7,10);
             yield return new WaitForSeconds(spawnInterval);
         }
     }
-
 }
