@@ -16,7 +16,7 @@ public class ColliderB : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("No se encontró un objeto con la etiqueta 'BananaCounter'.");
+            Debug.Log("No se encontró un objeto con la etiqueta 'BananaCounter'.");
         }
     }
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class BananaSpawner : MonoBehaviour
@@ -18,7 +19,7 @@ public class BananaSpawner : MonoBehaviour
     {
         StartCoroutine(SpawnBananas());
     }
-
+ 
     IEnumerator SpawnBananas()
     {
         while (true)
@@ -40,5 +41,10 @@ public class BananaSpawner : MonoBehaviour
             spawnInterval = Random.Range(7,10);
             yield return new WaitForSeconds(spawnInterval);
         }
+    }
+
+    public void DespuesEstar()
+    {
+        StartCoroutine(SpawnBananas());
     }
 }

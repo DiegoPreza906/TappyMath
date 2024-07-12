@@ -39,13 +39,11 @@ public class Moving : MonoBehaviour
 
     public void StopMovement()
     {
-        Debug.Log("Stopping movement.");
         isMoving = true;
     }
 
     public void ActiveMovement()
     {
-        Debug.Log("Resuming movement.");
         isMoving = false;
     }
 }
