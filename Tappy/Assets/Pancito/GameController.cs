@@ -182,6 +182,7 @@ public class GameController : MonoBehaviour
         }
 
         QuestionTrigger questionTrigger = FindObjectOfType<QuestionTrigger>();
+
         if (questionTrigger != null)
         {
             triggerAnimator.SetTrigger(animationTriggerName);
@@ -196,7 +197,10 @@ public class GameController : MonoBehaviour
 
     public void WrongAnswer()
     {
-        currentLevel = 1;
+        if (correctAnswers >= 5)
+        {
+            currentLevel = currentLevel - 1;
+        }
         correctAnswers = 0;
 
         // Verificar que playerHealth no es nulo
