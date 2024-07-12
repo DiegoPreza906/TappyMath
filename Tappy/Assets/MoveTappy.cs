@@ -10,11 +10,15 @@ public class MoveTappy : MonoBehaviour
     private Vector3 previousPosition; // Posición anterior
     private bool canMove = true; // Flag para controlar el movimiento
 
+
+    [SerializeField] private Animator triggerAnimator;
+    [SerializeField] private string animationTriggerName = "Derecha";
     void Start()
     {
         // Inicializar la posición objetivo y anterior a la posición actual
         targetPosition = transform.position;
         previousPosition = transform.position;
+        QuestionTrigger questionTrigger = FindObjectOfType<QuestionTrigger>();
     }
 
     void Update()
@@ -25,13 +29,16 @@ public class MoveTappy : MonoBehaviour
              if (Input.GetKeyDown(KeyCode.RightArrow))
             {
                 previousPosition = targetPosition; // Guardar la posición actual como anterior
+                triggerAnimator.SetTrigger(animationTriggerName);
                 targetPosition -= new Vector3(0, 0, moveDistance);
+
             }
 
             // Comprobar si se presiona la tecla de flecha izquierda
             if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
                 previousPosition = targetPosition; // Guardar la posición actual como anterior
+                triggerAnimator.SetTrigger(animationTriggerName);
                 targetPosition += new Vector3(0, 0, moveDistance);
             }
 

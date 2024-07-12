@@ -13,15 +13,27 @@ public class QuestionManager : MonoBehaviour
     private string correctAnswer;
     private GameController gameController;
     private Coroutine timerCoroutine;
-    private Moving[] movingObjects; // Array de referencias a los objetos en movimiento
+
+    private Moving[] movingObjects;
+    private BananasMovemente[] bananas;
+    private BananaSpawner SpawnBananas;
+    [SerializeField] private GameObject BananaB;
     public MoveTappy moveTappy;
+    public Score doScore;
     void Start()
     {
         questionCanvas.SetActive(false);
         gameController = FindObjectOfType<GameController>();
         movingObjects = FindObjectsOfType<Moving>(); // Buscar todos los objetos en movimiento en la escena
+        bananas = FindObjectsOfType<BananasMovemente>();
+        doScore = FindObjectOfType<Score>();
+        SpawnBananas = FindObjectOfType<BananaSpawner>();
     }
 
+    private void Update()
+    {
+        bananas = FindObjectsOfType<BananasMovemente>();
+    }
     public void ShowQuestion(string question, string[] answers, string correctAnswer)
     {
         questionCanvas.SetActive(true);
@@ -49,7 +61,13 @@ public class QuestionManager : MonoBehaviour
         {
             movingObject.StopMovement();
         }
+        foreach (BananasMovemente banana in bananas)
+        {
+            banana.StopMovement();
+        }
         moveTappy.StopMovement();
+        doScore.NoseMueve();
+        BananaB.SetActive(false);
         // Iniciar el temporizador
         timerCoroutine = StartCoroutine(TimerCoroutine(10f));
     }
@@ -62,10 +80,18 @@ public class QuestionManager : MonoBehaviour
             // Reanudar el movimiento de todos los objetos
             foreach (Moving movingObject in movingObjects)
             {
-                movingObject.ActiveMovement();
                 
+                movingObject.ActiveMovement();
+
+            }
+            foreach (BananasMovemente bananas in bananas)
+            {
+                bananas.ActiveMovement();
             }
             moveTappy.ActiveMovement();
+            doScore.SiseMueve();
+            BananaB.SetActive(true);
+            SpawnBananas.DespuesEstar();
             gameController.CorrectAnswer();
         }
         else
@@ -74,9 +100,20 @@ public class QuestionManager : MonoBehaviour
             // Reanudar el movimiento de todos los objetos
             foreach (Moving movingObject in movingObjects)
             {
+
                 movingObject.ActiveMovement();
+                
+
             }
+            foreach (BananasMovemente bananas in bananas)
+            {
+                bananas.ActiveMovement();
+            }
+
             moveTappy.ActiveMovement();
+            BananaB.SetActive(true);
+            SpawnBananas.DespuesEstar();
+            doScore.SiseMueve();
             gameController.WrongAnswer();
         }
         questionCanvas.SetActive(false);

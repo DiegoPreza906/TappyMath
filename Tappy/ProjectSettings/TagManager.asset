@@ -9,6 +9,8 @@ TagManager:
   - Active
   - Trigger
   - Wall
+  - DestroyB
+  - BananaCounter
   layers:
   - Default
   - TransparentFX
