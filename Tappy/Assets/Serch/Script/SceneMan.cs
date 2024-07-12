@@ -22,14 +22,19 @@ public class SceneMan : MonoBehaviour
     {
         if (Load.activeSelf)
         {
-            sliderProgress.value = Mathf.MoveTowards(sliderProgress.value, currentPorcent, 10 * Time.deltaTime);
+            // Movimiento suave de la barra de progreso
+            sliderProgress.value = Mathf.MoveTowards(sliderProgress.value, currentPorcent / 100f, 10 * Time.deltaTime);
         }
     }
 
     public void LoadSceneButton()
     {
-        Load.SetActive(true);
-        StartCoroutine(LoadScene(sceneLoadName));
+        if (!Load.activeSelf)
+        {
+            Load.SetActive(true);
+            currentPorcent = 0; // Reiniciar porcentaje actual
+            StartCoroutine(LoadScene(sceneLoadName));
+        }
     }
 
     public IEnumerator LoadScene(string sceneLoadName)
