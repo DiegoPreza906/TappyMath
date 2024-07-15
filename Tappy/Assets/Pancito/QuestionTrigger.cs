@@ -12,7 +12,7 @@ public class QuestionTrigger : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("Gola como estas");
+
         gameController = FindObjectOfType<GameController>(); // Buscar el GameController en la escena
         boxCollider.enabled = false; // Desactivar el objeto que tiene el trigger
         IniciarCorrutina();

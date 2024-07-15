@@ -6,7 +6,7 @@ public class Moving : MonoBehaviour
 {
     private Rigidbody rb;
     private bool isMoving = false;
-
+    private float velocidad = 5.0f;
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -21,7 +21,7 @@ public class Moving : MonoBehaviour
         }
         else
         {
-            transform.position += new Vector3(-5, 0, 0) * Time.deltaTime;
+            transform.position += new Vector3(-velocidad, 0, 0) * Time.deltaTime;
         }
     }
 
@@ -45,5 +45,11 @@ public class Moving : MonoBehaviour
     public void ActiveMovement()
     {
         isMoving = false;
+    }
+
+    public void Aumentar()
+    {
+        velocidad += 1.0f;
+        Debug.Log("Mi velocidad es" + velocidad);
     }
 }

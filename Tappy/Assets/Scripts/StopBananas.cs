@@ -5,11 +5,12 @@ using UnityEngine;
 public class StopBananas : MonoBehaviour
 {
     private bool isMoving = false;
+    private float velocidad = 5.0f;
     void Update()
     {
         if (isMoving)
         {
-            transform.position += new Vector3(-5, 0, 0) * Time.deltaTime;
+            transform.position += new Vector3(-velocidad, 0, 0) * Time.deltaTime;
         }
         else
         {
@@ -27,5 +28,10 @@ public class StopBananas : MonoBehaviour
     {
         
         isMoving = true;
+    }
+
+    public void Aumentar()
+    {
+        velocidad += 1.0f;
     }
 }
