@@ -177,7 +177,10 @@ public class GameController : MonoBehaviour
         if (correctAnswers >= 5)
         {
             currentLevel++;
-            correctAnswers = 0;
+            if (currentLevel == 3)
+            {
+                questionManager.CambiarTiempo();
+            }
             if (currentLevel > 5) currentLevel = 5;
         }
 

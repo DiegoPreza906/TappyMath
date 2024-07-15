@@ -10,7 +10,7 @@ public class Score : MonoBehaviour
     public TextMeshProUGUI distanceText; // Referencia al objeto TextMeshPro
     private bool move = true;
     [SerializeField] public AumentarVelocidad veloz;
-    private float nextSpeedIncreaseDistance = 10.0f;
+    private float nextSpeedIncreaseDistance = 40.0f;
 
     void Update()
     {
@@ -22,11 +22,23 @@ public class Score : MonoBehaviour
             // Actualiza la distancia total recorrida
             totalDistance += distanceTraveled;
 
-            if (totalDistance >= nextSpeedIncreaseDistance)
+            if (totalDistance >= nextSpeedIncreaseDistance && nextSpeedIncreaseDistance<1240)
             {
                 Debug.LogWarning("POCO A POCO");
                 veloz.Velocidad();
-                nextSpeedIncreaseDistance += 10.0f; // Actualiza para el próximo incremento
+                // Actualiza para el próximo incremento
+                if(nextSpeedIncreaseDistance>=90)
+                {
+                    nextSpeedIncreaseDistance += 150.0f;
+                }
+                else if(nextSpeedIncreaseDistance >= 240)
+                {
+                    nextSpeedIncreaseDistance += 500.0f;
+                }                        
+                else
+                {
+                    nextSpeedIncreaseDistance += 50.0f;
+                }
             }
 
             distanceText.text = "" + totalDistance.ToString("F2") + "m";

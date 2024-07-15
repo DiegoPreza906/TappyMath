@@ -14,6 +14,7 @@ public class QuestionManager : MonoBehaviour
     private GameController gameController;
     private Coroutine timerCoroutine;
 
+    private float tiempoConts = 10f;
     private Moving[] movingObjects;
     private StopBananas bananas;
     private BananaSpawner SpawnBananas;
@@ -68,7 +69,7 @@ public class QuestionManager : MonoBehaviour
         doScore.NoseMueve();
         BananaB.SetActive(false);
         // Iniciar el temporizador
-        timerCoroutine = StartCoroutine(TimerCoroutine(10f));
+        timerCoroutine = StartCoroutine(TimerCoroutine(tiempoConts));
     }
 
     private void CheckAnswer(string answer)
@@ -133,5 +134,10 @@ public class QuestionManager : MonoBehaviour
         {
             StopCoroutine(timerCoroutine);
         }
+    }
+
+    public void CambiarTiempo()
+    {
+        tiempoConts = 8f;
     }
 }
