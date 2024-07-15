@@ -7,6 +7,8 @@ public class PlayerH : MonoBehaviour
     public int vidas = 3;
 
     [SerializeField] private GameObject gameOverCanvas;
+    [SerializeField] private ModificarFinal GO;
+    [SerializeField] private GuardarPuntos guardar;
     [SerializeField] private GameObject vida3UI; // Referencia a la UI de 3 vidas
     [SerializeField] private GameObject vida2UI; // Referencia a la UI de 2 vidas
     [SerializeField] private GameObject vida1UI; // Referencia a la UI de 1 vida
@@ -86,6 +88,8 @@ public class PlayerH : MonoBehaviour
             // Detener el juego configurando la escala de tiempo a 0
             Time.timeScale = 0;
             gameOverCanvas.SetActive(true);
+            GO.ContarFinal();
+            guardar.EjemploFinalizarPartida();
             Debug.Log("El jugador ha perdido todas sus vidas. El juego se detendrá.");
             return;
         }

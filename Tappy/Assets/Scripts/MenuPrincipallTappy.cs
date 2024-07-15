@@ -9,7 +9,6 @@ public class MenuPrincipalTappy : MonoBehaviour
     public MoveTappy moveTappy; // Start is called before the first frame update
     public CamaraFollow camara;
     // Animaciones
-    [SerializeField] private string animationThink = "Run";
     [SerializeField] private string animationRun = "Correr";
     [SerializeField] private Animator triggerAnimator;
     private bool pantallaPrincipal;
@@ -21,6 +20,7 @@ public class MenuPrincipalTappy : MonoBehaviour
     [SerializeField] private GameObject triggerQuestion;
     [SerializeField] private GameObject SpawnBananas;
     [SerializeField] private GameObject score;
+    [SerializeField] private StopBananas bananas;
 
     void Awake()
     {
@@ -30,13 +30,13 @@ public class MenuPrincipalTappy : MonoBehaviour
             movingObject.StopMovement();
         }
         moveTappy.StopMovement();
-        triggerAnimator.SetTrigger(animationThink);
         gameObjectQuestion.SetActive(false);
         lifes.SetActive(false);
         contador.SetActive(false);
         triggerQuestion.SetActive(false);
         score.SetActive(false);
         SpawnBananas.SetActive(false);
+        bananas.StopMovement();
         pantallaPrincipal = true;
 
     }
@@ -46,11 +46,12 @@ public class MenuPrincipalTappy : MonoBehaviour
     {
         if (pantallaPrincipal)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began))
             {
                 PicarPantalla();
                 pantallaPrincipal = false;
             }
+
         }
     }
 
@@ -69,6 +70,7 @@ public class MenuPrincipalTappy : MonoBehaviour
         triggerQuestion.SetActive(true);
         contador.SetActive(true);
         SpawnBananas.SetActive(true);
+        bananas.ActiveMovement();
         score.SetActive(true);
         camara.SetPlayOn(true);
  

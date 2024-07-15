@@ -14,4 +14,9 @@ public class ContadorBnanas : MonoBehaviour
         bananaCount++;
         bananaText.text = "" + bananaCount;
     }
+
+    public int RegresarContador()
+    {
+        return bananaCount;
+    }
 }

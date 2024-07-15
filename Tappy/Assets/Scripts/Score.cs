@@ -36,4 +36,9 @@ public class Score : MonoBehaviour
     {
         move = true;
     }
+
+    public float RegresarScore()
+    {
+        return totalDistance;
+    }
 }

@@ -15,7 +15,7 @@ public class QuestionManager : MonoBehaviour
     private Coroutine timerCoroutine;
 
     private Moving[] movingObjects;
-    private BananasMovemente[] bananas;
+    private StopBananas bananas;
     private BananaSpawner SpawnBananas;
     [SerializeField] private GameObject BananaB;
     public MoveTappy moveTappy;
@@ -25,14 +25,14 @@ public class QuestionManager : MonoBehaviour
         questionCanvas.SetActive(false);
         gameController = FindObjectOfType<GameController>();
         movingObjects = FindObjectsOfType<Moving>(); // Buscar todos los objetos en movimiento en la escena
-        bananas = FindObjectsOfType<BananasMovemente>();
+        bananas = FindObjectOfType<StopBananas>();
         doScore = FindObjectOfType<Score>();
         SpawnBananas = FindObjectOfType<BananaSpawner>();
     }
 
     private void Update()
     {
-        bananas = FindObjectsOfType<BananasMovemente>();
+        bananas = FindObjectOfType<StopBananas>();
     }
     public void ShowQuestion(string question, string[] answers, string correctAnswer)
     {
@@ -61,10 +61,9 @@ public class QuestionManager : MonoBehaviour
         {
             movingObject.StopMovement();
         }
-        foreach (BananasMovemente banana in bananas)
-        {
-            banana.StopMovement();
-        }
+
+        bananas.StopMovement();
+        
         moveTappy.StopMovement();
         doScore.NoseMueve();
         BananaB.SetActive(false);
@@ -84,10 +83,9 @@ public class QuestionManager : MonoBehaviour
                 movingObject.ActiveMovement();
 
             }
-            foreach (BananasMovemente bananas in bananas)
-            {
-                bananas.ActiveMovement();
-            }
+
+            bananas.ActiveMovement();
+           
             moveTappy.ActiveMovement();
             doScore.SiseMueve();
             BananaB.SetActive(true);
@@ -105,10 +103,7 @@ public class QuestionManager : MonoBehaviour
                 
 
             }
-            foreach (BananasMovemente bananas in bananas)
-            {
-                bananas.ActiveMovement();
-            }
+            bananas.ActiveMovement();
 
             moveTappy.ActiveMovement();
             BananaB.SetActive(true);
