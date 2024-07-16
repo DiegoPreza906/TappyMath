@@ -10,7 +10,7 @@ public class StopBananas : MonoBehaviour
     {
         if (isMoving)
         {
-            transform.position += new Vector3(-velocidad, 0, 0) * Time.deltaTime;
+            transform.position += new Vector3(0, 0, -velocidad) * Time.deltaTime;
         }
         else
         {

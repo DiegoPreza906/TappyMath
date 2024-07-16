@@ -21,7 +21,7 @@ public class Moving : MonoBehaviour
         }
         else
         {
-            transform.position += new Vector3(-velocidad, 0, 0) * Time.deltaTime;
+            transform.position += new Vector3(0, 0, -velocidad) * Time.deltaTime;
         }
     }
 
@@ -29,7 +29,7 @@ public class Moving : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Active"))
         {
-            transform.position = new Vector3(42, transform.position.y, transform.position.z);
+            transform.position = new Vector3(transform.position.x, transform.position.y, 42.31f);
             //rb.isKinematic = false;
             isMoving = false;
             Debug.Log("Object moved to new position and resumed movement.");

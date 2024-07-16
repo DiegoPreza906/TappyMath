@@ -1,109 +1,61 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Animations;
 
 public class MoveTappy : MonoBehaviour
 {
-    public float moveDistance = 1.0f; // Distancia a moverse por cada toque de la tecla
-    public float moveSpeed = 5.0f; // Velocidad del movimiento
-    private Vector3 targetPosition; // Posición objetivo
-    private Vector3 previousPosition; // Posición anterior
-    private bool canMove = true; // Flag para controlar el movimiento
-    private Vector3 posicinFijaIz;
-    private Vector3 posicinFijaDe;
+    private Vector3 posicinFijaDe; // Posición fija derecha en el eje Z
+    private Vector3 posicinFijaIz; // Posición fija izquierda en el eje Z
+    public float moveDistance = 1f; // Distancia de movimiento en el eje Z
+    private Vector3 previousPosition;
+    private Vector3 targetPosition;
+    private bool canMove = true;
+    private float minSwipeDistance = 50f; // Distancia mínima para considerar un deslizamiento
 
-    [SerializeField] private Animator triggerAnimator;
-    //[SerializeField] private string animationTriggerName = "Derecha";
     void Start()
     {
-        // Inicializar la posición objetivo y anterior a la posición actual
+        // Inicializar las posiciones fijas en el eje Z
+        posicinFijaIz = new Vector3(0.4281f, 0.749f, 1.012f); // Ajusta los valores según la posición que desees
+        posicinFijaDe = new Vector3(0.4281f, 0.749f, -0.988f); // Ajusta los valores según la posición que desees
+
+        // Establecer la posición inicial y objetivo como la posición actual del objeto
         targetPosition = transform.position;
         previousPosition = transform.position;
-        posicinFijaIz = new Vector3(0.4281f, 0.749f, 1.012f);
-        posicinFijaDe = new Vector3(0.4281f, 0.749f, -0.988f);
-        QuestionTrigger questionTrigger = FindObjectOfType<QuestionTrigger>();
     }
 
     void Update()
     {
-        if (canMove)
+        if (canMove && Input.touchCount > 0)
         {
-            // Manejo de entrada táctil
-            if (Input.touchCount > 0)
+            Touch touch = Input.GetTouch(0);
+
+            if (touch.phase == TouchPhase.Began)
             {
-                Touch touch = Input.GetTouch(0);
+                // Guardar la posición inicial del toque
+                previousPosition = touch.position;
+            }
+            else if (touch.phase == TouchPhase.Moved)
+            {
+                // Calcular la diferencia en la posición del toque
+                Vector3 touchDelta = new Vector3(touch.position.x, touch.position.y, 0) - previousPosition;
 
-                if (touch.phase == TouchPhase.Began)
+                // Solo considerar el movimiento si la distancia en Y es mayor que minSwipeDistance
+                if (Mathf.Abs(touchDelta.y) > minSwipeDistance)
                 {
-                    // Guardar la posición inicial del toque
-                    previousPosition = touch.position;
-                }
-
-                if (touch.phase == TouchPhase.Moved)
-                {
-                    // Calcular la diferencia en la posición del toque
-                    Vector3 touchDelta = touch.deltaPosition;
-
-                    if (touchDelta.x > 0) // Deslizamiento hacia la derecha
+                    if (touchDelta.z > 0) // Deslizamiento hacia arriba (adelante en eje Z)
                     {
-                        previousPosition = posicinFijaDe; // Guardar la posición actual como anterior
-                        targetPosition -= new Vector3(0, 0, moveDistance);
-                        if (targetPosition.z < posicinFijaDe.z)
-                        {
-                            targetPosition = posicinFijaDe;
-                        }
+                        previousPosition = touch.position; // Actualizar la posición anterior
+                        targetPosition = posicinFijaDe; // Mover hacia la posición fija derecha en el eje Z
                     }
-                    else if (touchDelta.x < 0) // Deslizamiento hacia la izquierda
+                    else if (touchDelta.z < 0) // Deslizamiento hacia abajo (atrás en eje Z)
                     {
-                        previousPosition = posicinFijaIz;
-                        targetPosition += new Vector3(0, 0, moveDistance);
-                        if (targetPosition.z > posicinFijaIz.z)
-                        {
-                            targetPosition = posicinFijaIz;
-                        }
+                        previousPosition = touch.position; // Actualizar la posición anterior
+                        targetPosition = posicinFijaIz; // Mover hacia la posición fija izquierda en el eje Z
                     }
                 }
             }
-
-            // Manejo de entrada de ratón para pruebas en la computadora
-            if (Input.GetMouseButtonDown(0))
-            {
-                // Guardar la posición inicial del clic del ratón
-                previousPosition = Input.mousePosition;
-            }
-
-            if (Input.GetMouseButton(0))
-            {
-                // Calcular la diferencia en la posición del ratón
-                Vector3 mouseDelta = (Vector3)Input.mousePosition - previousPosition;
-
-                if (mouseDelta.x > 0) // Arrastre hacia la derecha
-                {
-                    previousPosition = posicinFijaDe; // Guardar la posición actual como anterior
-                    targetPosition -= new Vector3(0, 0, moveDistance);
-                    if (targetPosition.z < posicinFijaDe.z)
-                    {
-                        targetPosition = posicinFijaDe;
-                    }
-                }
-                else if (mouseDelta.x < 0) // Arrastre hacia la izquierda
-                {
-                    previousPosition = posicinFijaIz;
-                    targetPosition += new Vector3(0, 0, moveDistance);
-                    if (targetPosition.z > posicinFijaIz.z)
-                    {
-                        targetPosition = posicinFijaIz;
-                    }
-                }
-
-                // Actualizar la posición anterior del ratón
-                previousPosition = Input.mousePosition;
-            }
-
-            // Mover el objeto hacia la posición objetivo
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
         }
+
+        // Aplicar movimiento suavizado hacia el objetivo en el eje Z
+        transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 10f);
     }
 
     public void StopMovement()
@@ -120,9 +72,7 @@ public class MoveTappy : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Wall")) // Verificar si colisiona con un objeto etiquetado como "Wall"
         {
-       
             targetPosition = previousPosition; // Revertir la posición objetivo a la anterior
         }
     }
-
 }

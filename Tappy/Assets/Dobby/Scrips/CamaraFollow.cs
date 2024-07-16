@@ -21,8 +21,8 @@ public class CamaraFollow : MonoBehaviour
         if (playOn)
         {
             // Cambiar la posición y rotación de la cámara a valores específicos
-            Vector3 targetPosition = new Vector3(-3.9f, 2.9f, -0.043f);
-            Quaternion targetRotation = Quaternion.Euler(0, 90, 0);
+            Vector3 targetPosition = new Vector3(0.08f, 2.833f, -3.316f);
+            Quaternion targetRotation = Quaternion.Euler(0, 0, 0);
 
             // Interpolación suave hacia la nueva posición y rotación
             transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 4);
@@ -47,7 +47,7 @@ public class CamaraFollow : MonoBehaviour
         if (followPlayer)
         {
             // Solo seguir al jugador en el eje Z suavemente
-            Vector3 targetPosition = new Vector3(transform.position.x, transform.position.y, target.position.z);
+            Vector3 targetPosition = new Vector3(target.position.x, transform.position.y, transform.position.z);
             transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 4);
         }
     }

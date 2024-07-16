@@ -14,13 +14,22 @@ public class MenuPrincipalTappy : MonoBehaviour
     private bool pantallaPrincipal;
 
     [SerializeField] private GameObject gameObjectQuestion;
+
     [SerializeField] private GameObject lifes;
+
     [SerializeField] private GameObject contador;// Nota: cambio de "Lifes" a "lifes" para seguir las convenciones de nomenclatura
+
     [SerializeField] private GameObject menu;
+
     [SerializeField] private GameObject triggerQuestion;
+
     [SerializeField] private GameObject SpawnBananas;
+
     [SerializeField] private GameObject score;
+
     [SerializeField] private StopBananas bananas;
+
+    [SerializeField] private GameObject botonInicio;
 
     void Awake()
     {
@@ -42,21 +51,15 @@ public class MenuPrincipalTappy : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+  
+    public void Onclick()
     {
-        if (pantallaPrincipal)
-        {
-            if (Input.GetKeyDown(KeyCode.Space) || (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began))
-            {
-                PicarPantalla();
-                pantallaPrincipal = false;
-            }
-
-        }
+        PicarPantalla();
     }
 
-    private void PicarPantalla()
+    public void PicarPantalla()
     {
+        pantallaPrincipal = false;
         Debug.Log("PicarPantalla called"); // Log para depuración
         moveTappy.ActiveMovement();
         foreach (Moving movingObject in movingObjects)
@@ -67,6 +70,7 @@ public class MenuPrincipalTappy : MonoBehaviour
         gameObjectQuestion.SetActive(true);
         lifes.SetActive(true);
         menu.SetActive(false);
+        botonInicio.SetActive(false);
         triggerQuestion.SetActive(true);
         contador.SetActive(true);
         SpawnBananas.SetActive(true);
