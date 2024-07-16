@@ -12,6 +12,7 @@ TagManager:
   - DestroyB
   - BananaCounter
   - SaveB
+  - MusicB
   layers:
   - Default
   - TransparentFX

@@ -26,7 +26,7 @@ public class PlayerH : MonoBehaviour
         if (animatorObject3 != null)
         {
             animator3 = animatorObject3.GetComponent<Animator>();
-            animator3.SetInteger("Vidas", vidas); // Inicializar el parámetro de vidas
+            animator3.SetInteger("Vidas", vidas); // Inicializar el parï¿½metro de vidas
         }
         else
         {
@@ -36,7 +36,7 @@ public class PlayerH : MonoBehaviour
         if (animatorObject2 != null)
         {
             animator2 = animatorObject2.GetComponent<Animator>();
-            animator2.SetInteger("Vidas", vidas); // Inicializar el parámetro de vidas
+            animator2.SetInteger("Vidas", vidas); // Inicializar el parï¿½metro de vidas
         }
         else
         {
@@ -46,7 +46,7 @@ public class PlayerH : MonoBehaviour
         if (animatorObject1 != null)
         {
             animator1 = animatorObject1.GetComponent<Animator>();
-            animator1.SetInteger("Vidas", vidas); // Inicializar el parámetro de vidas
+            animator1.SetInteger("Vidas", vidas); // Inicializar el parï¿½metro de vidas
         }
         else
         {
@@ -61,7 +61,7 @@ public class PlayerH : MonoBehaviour
 
         Debug.Log("Penalizar al jugador. Vidas restantes: " + vidas);
 
-        // Actualizar los parámetros del Animator si se han asignado correctamente
+        // Actualizar los parï¿½metros del Animator si se han asignado correctamente
         if (vidas == 2)
         {
 
@@ -88,9 +88,11 @@ public class PlayerH : MonoBehaviour
             // Detener el juego configurando la escala de tiempo a 0
             Time.timeScale = 0;
             gameOverCanvas.SetActive(true);
+            AudioManager.instance.musicSources.Stop();
+            AudioManager.instance.SFXPlay("Over");
             GO.ContarFinal();
             guardar.EjemploFinalizarPartida();
-            Debug.Log("El jugador ha perdido todas sus vidas. El juego se detendrá.");
+            Debug.Log("El jugador ha perdido todas sus vidas. El juego se detendrï¿½.");
             return;
         }
     }

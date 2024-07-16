@@ -16,7 +16,7 @@ public class ColliderB : MonoBehaviour
         }
         else
         {
-            Debug.Log("No se encontró un objeto con la etiqueta 'BananaCounter'.");
+            Debug.Log("No se encontrï¿½ un objeto con la etiqueta 'BananaCounter'.");
         }
     }
 
@@ -27,12 +27,13 @@ public class ColliderB : MonoBehaviour
             if (bananaCounter != null)
             {
                 bananaCounter.IncrementBananaCount();
-                Debug.Log("Incrementando contador de plátanos");
+                Debug.Log("Incrementando contador de plï¿½tanos");
+                AudioManager.instance.SFXPlay("Banana");
                 Destroy(gameObject);
             }
             else
             {
-                Debug.LogWarning("bananaCounter no está asignado.");
+                Debug.LogWarning("bananaCounter no estï¿½ asignado.");
             }
         }
         else if (other.CompareTag("DestroyB"))

@@ -2,21 +2,21 @@ using UnityEngine;
 
 public class MoveTappy : MonoBehaviour
 {
-    private Vector3 posicinFijaDe; // Posición fija derecha en el eje Z
-    private Vector3 posicinFijaIz; // Posición fija izquierda en el eje Z
+    private Vector3 posicinFijaDe; // Posiciï¿½n fija derecha en el eje Z
+    private Vector3 posicinFijaIz; // Posiciï¿½n fija izquierda en el eje Z
     public float moveDistance = 1f; // Distancia de movimiento en el eje Z
     private Vector3 previousPosition;
     private Vector3 targetPosition;
     private bool canMove = true;
-    private float minSwipeDistance = 50f; // Distancia mínima para considerar un deslizamiento
+    private float minSwipeDistance = 50f; // Distancia mï¿½nima para considerar un deslizamiento
 
     void Start()
     {
         // Inicializar las posiciones fijas en el eje Z
-        posicinFijaIz = new Vector3(0.4281f, 0.749f, 1.012f); // Ajusta los valores según la posición que desees
-        posicinFijaDe = new Vector3(0.4281f, 0.749f, -0.988f); // Ajusta los valores según la posición que desees
+        posicinFijaIz = new Vector3(0.4281f, 0.749f, 1.012f); // Ajusta los valores segï¿½n la posiciï¿½n que desees
+        posicinFijaDe = new Vector3(0.4281f, 0.749f, -0.988f); // Ajusta los valores segï¿½n la posiciï¿½n que desees
 
-        // Establecer la posición inicial y objetivo como la posición actual del objeto
+        // Establecer la posiciï¿½n inicial y objetivo como la posiciï¿½n actual del objeto
         targetPosition = transform.position;
         previousPosition = transform.position;
     }
@@ -29,26 +29,27 @@ public class MoveTappy : MonoBehaviour
 
             if (touch.phase == TouchPhase.Began)
             {
-                // Guardar la posición inicial del toque
+                // Guardar la posiciï¿½n inicial del toque
                 previousPosition = touch.position;
             }
             else if (touch.phase == TouchPhase.Moved)
             {
-                // Calcular la diferencia en la posición del toque
+                // Calcular la diferencia en la posiciï¿½n del toque
                 Vector3 touchDelta = new Vector3(touch.position.x, touch.position.y, 0) - previousPosition;
 
                 // Solo considerar el movimiento si la distancia en Y es mayor que minSwipeDistance
                 if (Mathf.Abs(touchDelta.y) > minSwipeDistance)
                 {
+                    AudioManager.instance.SFXPlay("Dash");
                     if (touchDelta.z > 0) // Deslizamiento hacia arriba (adelante en eje Z)
                     {
-                        previousPosition = touch.position; // Actualizar la posición anterior
-                        targetPosition = posicinFijaDe; // Mover hacia la posición fija derecha en el eje Z
+                        previousPosition = touch.position; // Actualizar la posiciï¿½n anterior
+                        targetPosition = posicinFijaDe; // Mover hacia la posiciï¿½n fija derecha en el eje Z
                     }
-                    else if (touchDelta.z < 0) // Deslizamiento hacia abajo (atrás en eje Z)
+                    else if (touchDelta.z < 0) // Deslizamiento hacia abajo (atrï¿½s en eje Z)
                     {
-                        previousPosition = touch.position; // Actualizar la posición anterior
-                        targetPosition = posicinFijaIz; // Mover hacia la posición fija izquierda en el eje Z
+                        previousPosition = touch.position; // Actualizar la posiciï¿½n anterior
+                        targetPosition = posicinFijaIz; // Mover hacia la posiciï¿½n fija izquierda en el eje Z
                     }
                 }
             }
@@ -72,7 +73,7 @@ public class MoveTappy : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Wall")) // Verificar si colisiona con un objeto etiquetado como "Wall"
         {
-            targetPosition = previousPosition; // Revertir la posición objetivo a la anterior
+            targetPosition = previousPosition; // Revertir la posiciï¿½n objetivo a la anterior
         }
     }
 }

@@ -60,7 +60,9 @@ public class MenuPrincipalTappy : MonoBehaviour
     public void PicarPantalla()
     {
         pantallaPrincipal = false;
-        Debug.Log("PicarPantalla called"); // Log para depuración
+        Debug.Log("PicarPantalla called"); // Log para depuraciï¿½n
+        AudioManager.instance.ToggleMusic();
+        AudioManager.instance.MusicPlay("Theme");
         moveTappy.ActiveMovement();
         foreach (Moving movingObject in movingObjects)
         {
@@ -77,6 +79,5 @@ public class MenuPrincipalTappy : MonoBehaviour
         bananas.ActiveMovement();
         score.SetActive(true);
         camara.SetPlayOn(true);
- 
     }
 }
