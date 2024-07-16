@@ -50,6 +50,7 @@ public class MoveTappy : MonoBehaviour
                         if (targetPosition.x > posicinFijaDe.x)
                         {
                             targetPosition = posicinFijaDe;
+                            previousPosition = posicinFijaDe;
                         }
                     }
                     else if (touchDelta.x < previousPosition.x) // Deslizamiento hacia la izquierda
@@ -59,6 +60,7 @@ public class MoveTappy : MonoBehaviour
                         if (targetPosition.x < posicinFijaIz.x)
                         {
                             targetPosition = posicinFijaIz;
+                            previousPosition = posicinFijaIz;
                         }
                     }
                 }
